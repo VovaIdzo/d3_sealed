@@ -2,6 +2,6 @@ builders:
   featureBuilder:
     import: "package:d3_sealed/d3_sealed.dart"
     builder_factories: ["featureBuilder"]
-    build_extensions: {".dart": [".g.dart"]}
+    build_extensions: {".dart": [".sealed.dart"]}
     build_to: source
     auto_apply: root_package
