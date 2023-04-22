@@ -1,7 +1,15 @@
+# Read about `build.yaml` at https://pub.dev/packages/build_config
 builders:
+  # name of the builder
   featureBuilder:
+    # library URI containing the builder - maps to `lib/member_count_library_generator.dart`
     import: "package:d3_sealed/d3_sealed.dart"
+    # Name of the function in the above library to call.
     builder_factories: ["featureBuilder"]
-    build_extensions: {".dart": [".sealed.dart"]}
+    # The mapping from the source extension to the generated file extension
+    build_extensions: {".dart": [".g.dart"]}
+    # Will automatically run on any package that depends on it
+    auto_apply: dependents
+    # Generate the output directly into the package, not to a hidden cache dir
     build_to: source
-    auto_apply: root_package
+    applies_builders: [ "source_gen|combining_builder" ]
