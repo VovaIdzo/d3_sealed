@@ -1,9 +1,6 @@
 import 'package:analyzer/dart/element/element.dart';
 import 'package:build/build.dart';
-import 'package:build/build.dart';
 import 'package:collection/collection.dart';
-import 'package:d3_sealed/src/util/fs.dart';
-import 'package:path/path.dart' as p;
 import 'package:sealed_annotations/sealed_annotations.dart';
 import 'package:source_gen/source_gen.dart';
 import 'package:meta/meta.dart';
