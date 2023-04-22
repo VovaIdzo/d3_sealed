@@ -1,0 +1,14 @@
+name: dummy_yaml
+
+environment:
+  sdk: ">=2.12.0 <4.0.0"
+
+dependencies:
+  sealed_annotations: any
+  flutter:
+    sdk: flutter
+
+dev_dependencies:
+  d3_sealed:
+    path: ../
+  build_runner: ^2.3.3
