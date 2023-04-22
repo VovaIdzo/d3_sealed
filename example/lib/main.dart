@@ -8,6 +8,16 @@ void main() {
   runApp(MyApp());
 }
 
+
+@Sealed()
+abstract class EditRecipeIngredientsDispatcherAction implements DispatcherAction {
+  void onLoad(int? recipeId) => OnLoad_EditRecipeIngredientsDispatcherAction(recipeId);
+  void onEditIngredient(EditRecipeIngredientItemDvo? dvo) => OnLoad_EditRecipeIngredientsDispatcherAction();
+  void onRemove(EditRecipeIngredientItemDvo dvo) => OnLoad_EditRecipeIngredientsDispatcherAction();
+  void onSearchIngredient(String search) => OnLoad_EditRecipeIngredientsDispatcherAction();
+  void onSelectRemoteIngredient(EditRecipeRemoteIngredientDvo dvo) => OnLoad_EditRecipeIngredientsDispatcherAction();
+}
+
 @Sealed()
 abstract class Data {
   factory Data.onLoad(String id, Map<String, String> maps) => OnLoad_Data(id, maps);
