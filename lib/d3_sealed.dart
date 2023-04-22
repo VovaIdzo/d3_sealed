@@ -5,7 +5,7 @@ import 'package:sealed_annotations/sealed_annotations.dart';
 import 'package:source_gen/source_gen.dart';
 import 'package:meta/meta.dart';
 
-Builder featureBuilder(BuilderOptions options) => PartBuilder([const SealedGenerator()], '.g.dart');
+Builder featureBuilder(BuilderOptions options) => PartBuilder([const SealedGenerator()], '.sealed.dart');
 
 @sealed
 class SealedGenerator extends GeneratorForAnnotation<Sealed> {
