@@ -41,7 +41,7 @@ class SealedGenerator extends GeneratorForAnnotation<Sealed> {
       final methodName = element.name ?? "";
       final newClassName = "${methodName.capitalize()}${className}";
 
-        var content = '\nclass ${newClassName} implements ${className} {\n';
+        var content = '\nclass ${newClassName} extends ${className} {\n';
 
         //vars
         element.children.forEach((element) {
