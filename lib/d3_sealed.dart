@@ -26,15 +26,19 @@ class SealedGenerator extends GeneratorForAnnotation<Sealed> {
 
 
     String sealedEnumClass = 'enum ${sealedEnumClassName} {\n';
-    String mainClass = 'class ${className} implements ${parentClass} {\n';
+    String mainClass = 'class ${className}';
+    if (element is ClassElement){
+      mainClass += " implements " +element.interfaces.map((e) => e.toString()).join(",");
+    }
+    mainClass += " {\n";
 
     element.children.forEachIndexed((i, element) {
       if (i == 0){
         return;
       }
 
-        final methodName = element.name ?? "";
-        final newClassName = "${methodName.capitalize()}${className}";
+      final methodName = element.name ?? "";
+      final newClassName = "${methodName.capitalize()}${className}";
 
         var content = '\nclass ${newClassName} implements ${parentClass} {\n';
 
