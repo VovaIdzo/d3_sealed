@@ -17,19 +17,26 @@ class SealedGenerator extends GeneratorForAnnotation<Sealed> {
       ConstantReader annotation,
       BuildStep buildStep
   ) {
-
-
-    final className = element.name ?? '';
-
     List<String> classes = <String>[];
 
-    element.children.forEach((element) {
-      if (element.displayName?.startsWith(className) == true){
-        final methodName = element.name ?? '';
-        final newClassName = "${methodName.capitalize()}_${className}";
+
+    final parentClass = element.name ?? "";
+    final className = ((element.name?.startsWith("_") == true ? element.name!.substring(1) : element.name) ?? '').capitalize();
+    String sealedEnumClassName = "SealedEnum${className}";
 
 
-        var content = '\nclass ${newClassName} implements ${className} {\n';
+    String sealedEnumClass = 'enum ${sealedEnumClassName} {\n';
+    String mainClass = 'class ${className} implements ${parentClass} {\n';
+
+    element.children.forEachIndexed((i, element) {
+      if (i == 0){
+        return;
+      }
+
+        final methodName = element.name ?? "";
+        final newClassName = "${methodName.capitalize()}${className}";
+
+        var content = '\nclass ${newClassName} implements ${parentClass} {\n';
 
         //vars
         element.children.forEach((element) {
@@ -46,14 +53,42 @@ class SealedGenerator extends GeneratorForAnnotation<Sealed> {
         });
         content += ');\n';
 
+        content += '\t${sealedEnumClassName} get type => ${sealedEnumClassName}.${methodName};\n';
 
         content += '}\n';
 
+
+        sealedEnumClass += "\t${methodName},\n";
+
+
+        //main class factory method;
+        var mainClassMethod = "\tfactory ${className}.${methodName}(";
+        element.children.forEachIndexed((i, element) {
+          if (i != 0){
+            mainClassMethod += ", ";
+          }
+          mainClassMethod += "$element";
+        });
+        mainClassMethod += ") => ${newClassName}(";
+        element.children.forEachIndexed((i, element) {
+          if (i != 0){
+            mainClassMethod += ", ";
+          }
+          mainClassMethod += "${element.displayName}";
+        });
+        mainClassMethod += ");\n";
+        mainClass += mainClassMethod;
+        mainClass += "\t${newClassName} get as${methodName.capitalize()} => this as ${newClassName};\n\n";
+
         classes.add(content);
-      }
     });
 
+    sealedEnumClass += "}\n";
+    mainClass += '\t${sealedEnumClassName} get type;\n';
+    mainClass += '}\n';
 
+    classes.add(sealedEnumClass);
+    classes.insert(0, mainClass);
 
     return classes.join('\n');
   }

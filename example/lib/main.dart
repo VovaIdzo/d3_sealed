@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:meta/meta.dart';
 import 'package:sealed_annotations/sealed_annotations.dart';
 
-part 'main.g.dart';
+part 'main.sealed.dart';
 
 void main() {
   runApp(MyApp());
@@ -10,17 +10,9 @@ void main() {
 
 
 @Sealed()
-abstract class EditRecipeIngredientsDispatcherAction implements DispatcherAction {
-  void onLoad(int? recipeId) => OnLoad_EditRecipeIngredientsDispatcherAction(recipeId);
-  void onEditIngredient(EditRecipeIngredientItemDvo? dvo) => OnLoad_EditRecipeIngredientsDispatcherAction();
-  void onRemove(EditRecipeIngredientItemDvo dvo) => OnLoad_EditRecipeIngredientsDispatcherAction();
-  void onSearchIngredient(String search) => OnLoad_EditRecipeIngredientsDispatcherAction();
-  void onSelectRemoteIngredient(EditRecipeRemoteIngredientDvo dvo) => OnLoad_EditRecipeIngredientsDispatcherAction();
-}
-
-@Sealed()
-abstract class Data {
-  factory Data.onLoad(String id, Map<String, String> maps) => OnLoad_Data(id, maps);
+abstract class _EditRecipeIngredientsDispatcherAction implements DispatcherAction {
+  void onLoad(int? recipeId);
+  void onRefresh(EditRecipeIngredientItemDvo? dvo);
 }
 
 class MyApp extends StatelessWidget {
