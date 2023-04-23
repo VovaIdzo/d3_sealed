@@ -26,11 +26,12 @@ class SealedGenerator extends GeneratorForAnnotation<Sealed> {
 
 
     String sealedEnumClass = 'enum ${sealedEnumClassName} {\n';
-    String mainClass = 'class ${className}';
+    String mainClass = 'abstract class ${className}';
     if (element is ClassElement){
       mainClass += " implements " +element.interfaces.map((e) => e.toString()).join(",");
     }
-    mainClass += " {\n";
+    mainClass += " {\n ";
+    mainClass += "\tconst ${className}();";
 
     element.children.forEachIndexed((i, element) {
       if (i == 0){
@@ -66,21 +67,15 @@ class SealedGenerator extends GeneratorForAnnotation<Sealed> {
 
 
         //main class factory method;
-        var mainClassMethod = "\tfactory ${className}.${methodName}(";
+        var mainClassMethod = "\tconst factory ${className}.${methodName}(";
         element.children.forEachIndexed((i, element) {
           if (i != 0){
             mainClassMethod += ", ";
           }
           mainClassMethod += "$element";
         });
-        mainClassMethod += ") => ${newClassName}(";
-        element.children.forEachIndexed((i, element) {
-          if (i != 0){
-            mainClassMethod += ", ";
-          }
-          mainClassMethod += "${element.displayName}";
-        });
-        mainClassMethod += ");\n";
+        mainClassMethod += ") = ${newClassName};\n";
+
         mainClass += mainClassMethod;
         mainClass += "\t${newClassName} get as${methodName.capitalize()} => this as ${newClassName};\n\n";
 
